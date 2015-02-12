@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.wagentim.buymanager.utils.Parser;
+import cn.wagentim.buymanager.utils.Utils;
 
 public class GoogleBuyManagerServlet extends HttpServlet
 {
@@ -26,6 +27,7 @@ public class GoogleBuyManagerServlet extends HttpServlet
 	    }
 	    else
 		{
+	    	Utils.setAuthCookie(resp, authID);
 	        resp.sendRedirect("order.html");
 		}
 	}

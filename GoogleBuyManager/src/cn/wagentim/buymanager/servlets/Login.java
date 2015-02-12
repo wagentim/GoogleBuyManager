@@ -3,7 +3,6 @@ package cn.wagentim.buymanager.servlets;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,8 +23,9 @@ public class Login extends HttpServlet
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+    	
         String[] loginInfo = Parser.getUserLoginInfo(request);
-
+        
         // check if empty
         if( Utils.isNullOrEmpty(loginInfo) )
         {
@@ -55,9 +55,7 @@ public class Login extends HttpServlet
         // update Auth String
         updateAuth(customer);
 
-        Cookie cookie = new Cookie(Parser.AUTH, customer.getMd5());
-
-        response.addCookie(cookie);
+        Utils.setAuthCookie(response, customer.getMd5());
         response.sendRedirect("order.html");
 
     }
@@ -68,25 +66,4 @@ public class Login extends HttpServlet
         customer.setMd5( Utils.getMD5Encode(customer.getAlias(), customer.getPwd()) );
         customer.setStatus(IEntityStatus.STATUS_MODIFY);
     }
-
-//    private void processLoginData(final HttpServletRequest request)
-//    {
-//        UserStatusEntity user = Parser.getUserLogin(request);
-//
-//    }
-//
-//	private void addLoginUser(String[] loginInfo)
-//	{
-//		if( Checker.LoginUsrChecker(loginInfo) )
-//		{
-//			final String name = loginInfo[0];
-//			final String pwd = loginInfo[1];
-//			if( !loginUsrs.containsKey(name) )
-//			{
-//				loginUsrs.put(name, pwd);
-//			}
-//		}
-//	}
-
-
 }

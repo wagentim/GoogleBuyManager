@@ -4,6 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import com.google.gson.Gson;
 
 public final class Utils
@@ -69,5 +72,14 @@ public final class Utils
         }
 
 	    return StringConstants.EMPTY_STRING;
+	}
+	
+	public static void setAuthCookie(final HttpServletResponse response, final String authID)
+	{
+		if( null != response && null != authID && authID.length() > 0 )
+		{
+			Cookie cookie = new Cookie(Parser.AUTH, authID);
+			response.addCookie(cookie);
+		}
 	}
 }

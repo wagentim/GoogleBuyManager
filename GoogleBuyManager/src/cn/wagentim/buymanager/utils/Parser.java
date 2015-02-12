@@ -1,5 +1,7 @@
 package cn.wagentim.buymanager.utils;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import cn.wagentim.buymanager.servlets.IOperation;
@@ -10,7 +12,7 @@ public class Parser implements IOperation
     public static final String AUTH = "auth";
     public static final String USER_NAME = "usr";
     public static final String PASSWORD = "pwd";
-
+    
     public static final int parserOperation( final HttpServletRequest request )
     {
         String result = "";
@@ -46,7 +48,9 @@ public class Parser implements IOperation
         {
             return null;
         }
+        
+        Map<String, String[]> parameters = request.getParameterMap();
 
-        return new String[]{request.getParameter(USER_NAME), request.getParameter(PASSWORD)};
+        return new String[]{parameters.get(USER_NAME)[0], parameters.get(PASSWORD)[0]};
     }
 }

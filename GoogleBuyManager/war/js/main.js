@@ -3,6 +3,7 @@ var show_alert_delay_time = 4000;
 var customers;
 var id_customer = "cust";
 var id_product = "prod";
+var auth;
 
 $(document).ready(
 	
@@ -13,6 +14,7 @@ $(document).ready(
     	$("div#msg").hide();
     	$("div#info").hide();
     	
+    	// get Auth in the cookie
     	
     	/** loading some initial data from the remote server */
     	customers = loadCustomers();
@@ -26,7 +28,7 @@ $(document).ready(
                 if(null !== customers)
                 {
                 	$(this).removeAttr("disabled");
-                	attachCustomers();
+//                	attachCustomers();
                 }
                 else
                 {
@@ -45,6 +47,11 @@ $(document).ready(
         );
     }
 );
+
+function getAuth()
+{
+	return $.cookie("auth");
+}
 
 function showAlert(message)
 {
