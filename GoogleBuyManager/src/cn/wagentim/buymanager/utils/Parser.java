@@ -2,7 +2,7 @@ package cn.wagentim.buymanager.utils;
 
 import javax.servlet.http.HttpServletRequest;
 
-import cn.wagentim.buymanager.IOperation;
+import cn.wagentim.buymanager.servlets.IOperation;
 
 public class Parser implements IOperation
 {

@@ -1,4 +1,4 @@
-package cn.wagentim.buymanager;
+package cn.wagentim.buymanager.servlets;
 
 public interface IOperation
 {

@@ -1,4 +1,4 @@
-package cn.wagentim.buymanager;
+package cn.wagentim.buymanager.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
