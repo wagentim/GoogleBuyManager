@@ -1,8 +1,8 @@
 var order_counter = 0;
 var show_alert_delay_time = 4000;
-var customers;
 var id_customer = "cust";
 var id_product = "prod";
+var customers;
 var auth;
 
 $(document).ready(
@@ -15,9 +15,19 @@ $(document).ready(
     	$("div#info").hide();
     	
     	// get Auth in the cookie
+//    	auth = getAuth();
     	
     	/** loading some initial data from the remote server */
-    	customers = loadCustomers();
+    	loadCustomers();
+    	
+    	if(null !== customers)
+    	{
+    		$("button#add_order").removeAttr("disabled");
+    	}
+    	else
+    	{
+    		$("button#add_order").attr("disabled", true);
+    	}
     	
         $("button#add_order").click( 
         		
@@ -25,15 +35,6 @@ $(document).ready(
             {
                 addOrder();
                 
-                if(null !== customers)
-                {
-                	$(this).removeAttr("disabled");
-//                	attachCustomers();
-                }
-                else
-                {
-                	$(this).attr("disabled", true);
-                }
             }
         );
         
@@ -45,12 +46,20 @@ $(document).ready(
                 $(this).closest("tr").remove();
             }
         );
+        
+        $("#order_list").on("click", ".dropdown-menu li a",
+                function()
+                {
+        			var selText = $(this).text();
+        			$(this).parents('.dropdown').find('.dropdown-toggle').html(selText+'<span class="caret"></span>');
+                }
+         );
     }
 );
 
 function getAuth()
 {
-	return $.cookie("auth");
+	
 }
 
 function showAlert(message)
@@ -70,15 +79,15 @@ function loadCustomers()
 	    		type: "GET",
 	            url: "/customer?opt=1",
 	            dataType: "json",
+	            async: false,
 	            success: function(data)
 	            {
-	            	showInfo("已经成功从服务器上获取所有客户信息");
-	            	return data;
+	            	customers = data;
 	            },
 	            error: function(e)
 	            {
 	            	showAlert("错误：无法从服务器上获取客户信息");
-	            	return null;
+	            	customers = null;
 	            }
 	    	}
 	    );
@@ -126,7 +135,7 @@ function getTableHeader()
 {
     var result = "";
     result += "<thead>"
-    result += "<tr><td>商品</td><td>单价</td><td>总价</td></tr>"
+    result += "<tr><td>商品</td><td>单价</td><td>数量</td><td>总价</td><td>单重</td><td>总重</td><td>其他</td></tr>"
     result += "</thead>";
     return result;
 }
@@ -165,9 +174,17 @@ function addRow(order_number, show, is_button)
     {
         result += ("<td>" + getInputLine() + "</td>");
         result += ("<td>" + getInputLine() + "</td>");
+        result += ("<td>" + getInputLine() + "</td>");
+        result += ("<td>" + getInputLine() + "</td>");
+        result += ("<td>" + getInputLine() + "</td>");
+        result += ("<td>" + getInputLine() + "</td>");
     } 
     else 
     {
+        result += ("<td><label></label></td>");
+        result += ("<td><label></label></td>");
+        result += ("<td><label></label></td>");
+        result += ("<td><label></label></td>");
         result += ("<td><label></label></td>");
         result += ("<td><label></label></td>");
     }
@@ -187,9 +204,16 @@ function getInputLine()
 function getDropDown(name, id) {
     var result = "<div id='" + id + "' class='dropdown'><button class='btn btn-default dropdown-toggle' type='button' id='menu1' data-toggle='dropdown'>" + name + "<span class='caret'></span></button>";
     result += "<ul class='dropdown-menu' role='menu' aria-labelledby='menu1'>";
+    if( id == id_customer)
+    {
+    	var mount = customers.length;
+    	for(var i =0; i < mount; i++)
+    	{
+    		result += ("<li role='presentation'><a role='menuitem' tabindex='-1' href='#'>" + customers[i].lastName + " " + customers[i].firstName + "</a></li>");
+    	}
+    }
     result += "</ul></div>";
     return result;
-//    			result += ("<li role='presentation'><a role='menuitem' tabindex='-1' href='#'>hello</a></li>");
 }
 
 function getPrimaryButton(button_name) {
