@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
 import cn.wagentim.buymanager.entities.CustomerEntity;
-import cn.wagentim.buymanager.entities.IEntityStatus;
 import cn.wagentim.buymanager.utils.Utils;
 
 public class CustomerManager implements ICustomerStatement
@@ -26,11 +25,27 @@ public class CustomerManager implements ICustomerStatement
     	{
     		return;
     	}
-    	customer.setStatus(IEntityStatus.STATUS_NEW);
-   	    customers.add(customer);
+    	
+    	addNewCustomerToDB(customer);
+    	customer = getCustomerFromDB(customer.getAlias());
+    	customers.add(customer);
     }
 
-    private EntityManager getEntitiyManager()
+    private CustomerEntity getCustomerFromDB(String alias)
+	{
+    	EntityManager em = getEntitiyManager();
+
+	    try
+	    {
+	        return em.find(CustomerEntity.class, alias);
+	    }
+	    finally
+	    {
+	        em.close();
+	    }
+	}
+
+	private EntityManager getEntitiyManager()
     {
         return Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME).createEntityManager();
     }
