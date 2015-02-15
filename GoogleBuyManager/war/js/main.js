@@ -54,8 +54,53 @@ $(document).ready(
         			$(this).parents('.dropdown').find('.dropdown-toggle').html(selText+'<span class="caret"></span>');
                 }
         );
+        
+        $("button#modify_customer").click(function()
+        {
+        	showEditCustomerModal("编辑客户");
+        	createLeftComponent("客户列表");
+        	createRightComponent("详细信息");
+        });
     }
 );
+
+function showEditCustomerModal(title)
+{
+	$(".modal-title").html(title);
+}
+
+function createLeftComponent(title)
+{
+    $(".panel_list_title").html(title);
+    
+    addItems(0);    
+}
+
+function addItems(index)
+{
+    var items;
+    
+    if(0 == index)
+    {
+        
+    }
+    else
+    {
+    }
+    
+    var result = "";
+    result += "<div class='list-group'>";
+    result += "<a href='#' class='list-group-item'>Huang Bin</a>";
+    result += "</div>";
+    
+    $(".panel_list_body").append(result);
+}
+
+function showEditCustomerModal()
+{
+	$(".modal-title").html("编辑客户");
+	createPanel();
+}
 
 function getAuth()
 {

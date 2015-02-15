@@ -1,8 +1,5 @@
 @CHARSET "utf8";
 
-html, body, .container {
-    height: 100%;
-}
 .login_block {
     width: 500px;
     height: 300px;
@@ -12,4 +9,13 @@ html, body, .container {
     left: 0;
     right: 0;
     margin: auto;
+}
+
+h2 {
+	font-weight: bold;
+}
+
+hr {
+	border-color: #0099FF;
+	height: 2px;
 }
