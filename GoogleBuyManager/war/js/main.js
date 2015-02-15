@@ -152,12 +152,12 @@ function getTableBody()
 function addRowPair()
 {
     var result = "";
-    result += addRow("Gong Wei", true, false);
-    result += addRow("Gong Wei", false, true);
+    result += addRow(true, false);
+    result += addRow(false, true);
     return result;
 }
 
-function addRow(order_number, show, is_button)
+function addRow(show, is_button)
 {
     var result = "";
     result += ("<tr>");
@@ -186,7 +186,7 @@ function addRow(order_number, show, is_button)
         result += ("<td><label></label></td>");
         result += ("<td><label></label></td>");
         result += ("<td><label></label></td>");
-        result += ("<td><label></label></td>");
+        result += ("<td style='text-align:right'>" + getDangerButton("保存") + "</td>");
     }
     result += "</tr>";
     return result;
@@ -218,4 +218,8 @@ function getDropDown(name, id) {
 
 function getPrimaryButton(button_name) {
     return "<button id='btn_product' type='button' class='btn btn-primary'>" + button_name + "</button>";
+}
+
+function getDangerButton(button_name) {
+    return "<button id='btn_save' type='button' class='btn btn-danger' style='width:90px'>" + button_name + "</button>";
 }

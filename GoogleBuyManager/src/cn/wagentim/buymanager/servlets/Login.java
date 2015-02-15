@@ -64,6 +64,6 @@ public class Login extends HttpServlet
     private void updateAuth(CustomerEntity customer)
     {
         customer.setMd5( Utils.getMD5Encode(customer.getAlias(), customer.getPwd()) );
-        customer.setStatus(IEntityStatus.STATUS_MODIFY);
+        customer.setStatus(IEntityStatus.CUSTOMER_STATUS_MODIFY);
     }
 }

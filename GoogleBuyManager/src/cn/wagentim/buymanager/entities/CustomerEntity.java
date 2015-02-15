@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="CustomerEntity")
-public class CustomerEntity implements Serializable, IEntityStatus {
+public final class CustomerEntity implements Serializable, IEntityStatus {
 
 	/**
      *
@@ -45,7 +45,7 @@ public class CustomerEntity implements Serializable, IEntityStatus {
 
 	/** indicate that this customer entity is new created or has been modified */
 	@Transient
-	private int status = STATUS_NULL;
+	private int status = CUSTOMER_STATUS_NULL;
 
 
     public Long getId()
