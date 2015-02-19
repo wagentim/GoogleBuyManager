@@ -1,2 +1,6 @@
 @CHARSET "UTF-8";
 
+.modal-dialog
+{
+	max-width:700px;
+}

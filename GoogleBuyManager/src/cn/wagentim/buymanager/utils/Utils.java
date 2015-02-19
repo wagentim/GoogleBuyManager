@@ -1,11 +1,15 @@
 package cn.wagentim.buymanager.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.wagentim.buymanager.helper.contents.IContentHandler;
+import cn.wagentim.buymanager.helper.contents.TemplateLineHandler;
 
 import com.google.gson.Gson;
 
@@ -22,21 +26,6 @@ public final class Utils
 
 		return json.toJson(object);
 	}
-
-	public static boolean isNullOrEmpty(final CharSequence s)
-    {
-        return s == null || s.length() == 0;
-    }
-
-	public static boolean isNullOrEmpty(final CharSequence[] s)
-    {
-	    boolean result = false;
-	    for(int i = 0; i < s.length; i++)
-	    {
-	        result &= isNullOrEmpty(s[i]);
-	    }
-        return result;
-    }
 
 	public static String getMD5Encode(String userName, String password)
     {

@@ -12,6 +12,7 @@ import cn.wagentim.buymanager.entities.IEntityStatus;
 import cn.wagentim.buymanager.entities.managers.DataManager;
 import cn.wagentim.buymanager.utils.Parser;
 import cn.wagentim.buymanager.utils.Utils;
+import cn.wagentim.buymanager.utils.Validator;
 
 public class Login extends HttpServlet
 {
@@ -23,11 +24,11 @@ public class Login extends HttpServlet
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-    	
+    	// parser the user name and password from request
         String[] loginInfo = Parser.getUserLoginInfo(request);
         
         // check if empty
-        if( Utils.isNullOrEmpty(loginInfo) )
+        if( Validator.isNullOrEmpty(loginInfo) )
         {
             response.getWriter().write("User Name or Password Error!");
             return;
@@ -41,6 +42,7 @@ public class Login extends HttpServlet
 
         if( null == customer )
         {
+        	// TODO redirect to the error page with error message
             response.getWriter().write("The user is not registered!");
             return;
         }
@@ -48,6 +50,7 @@ public class Login extends HttpServlet
         // check password
         if( !pwd.equals(customer.getPwd()) )
         {
+        	// TODO redirect to the error page with error message
             response.getWriter().write("The password is wrong!");
             return;
         }
