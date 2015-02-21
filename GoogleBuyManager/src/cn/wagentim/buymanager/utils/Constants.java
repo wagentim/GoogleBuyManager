@@ -22,5 +22,21 @@ public interface Constants
     // --------------- HTML Constants ---------------
     
     public static final String CONTENT_TYPE_HTML = "text/html";
+    public static final String CONTENT_TYPE_TEXT = "text/text";
     public static final String CONTENT_CHAR_SET_UTF8 = "utf-8";
+    
+   //  --------------- Customer Constants ---------------
+    public static final String CUSTOMER_ALISA = "alias";
+    public static final String CUSTOMER_FIRST_NAME = "firstname";
+    public static final String CUSTOMER_LAST_NAME = "lastname";
+    public static final String CUSTOMER_TELEPHONE = "telephon";
+    public static final String CUSTOMER_EMAIL = "email";
+    public static final String CUSTOMER_COUNTRY = "country";
+    public static final String CUSTOMER_PROVINCE = "province";
+    public static final String CUSTOMER_CITY = "city";
+    public static final String CUSTOMER_ZIPCODE = "zipcode";
+    public static final String CUSTOMER_ADDRESS = "address";
+	public static final Object CUSTOMER_UID = "uid";
+    
+    
 }

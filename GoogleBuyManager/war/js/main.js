@@ -86,7 +86,6 @@ function loadCustomers()
 	            },
 	            error: function(e)
 	            {
-	            	showAlert("错误：无法从服务器上获取客户信息");
 	            	customers = null;
 	            }
 	    	}

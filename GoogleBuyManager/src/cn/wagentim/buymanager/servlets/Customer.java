@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.wagentim.buymanager.entities.CustomerEntity;
 import cn.wagentim.buymanager.entities.managers.DataManager;
+import cn.wagentim.buymanager.utils.Constants;
 import cn.wagentim.buymanager.utils.Parser;
 import cn.wagentim.buymanager.utils.Utils;
 
@@ -38,24 +39,20 @@ public class Customer extends HttpServlet implements IOperation
 		        case CUSTOMER_OPERATION_GET_CUSTOMER:
 		            break;
 		        case CUSTOMER_OPERATION_ADD_NEW_CUSTOMER:
-		            CustomerEntity customer = new CustomerEntity();
-		            customer.setAddress("feng tai");
-		            customer.setAlias("wagentim");
-		            customer.setCity("beijing");
-		            customer.setContury("china");
-		            customer.setEmail("wagentim@gmail.com");
-		            customer.setFirstName("Bin");
-		            customer.setLastName("Huang");
-		            customer.setPwd("huang78");
-		            customer.setMd5(Utils.getMD5Encode(customer.getAlias(), customer.getPwd()));
-		            customer.setProvince("beijing");
-		            customer.setTelefon("012313213213");
-		            customer.setValidationStart(String.valueOf(System.currentTimeMillis()));
-		            customer.setZipcode("323323");
-		            DataManager.instance.getCustomerManager().addCustomer(customer);
+		        	CustomerEntity customer = Parser.getCustomer(request);
+		        	boolean ok = DataManager.instance.getCustomerManager().addCustomer(customer);
+		        	if( ok )
+		        	{
+		        		response.setStatus(HttpServletResponse.SC_OK);
+		        	}
+		        	else
+		        	{
+		        		response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
+		        	}
 		            break;
 		    }
-		out.flush();
+		    
+		    out.flush();
 	}
 
     /**
@@ -63,7 +60,27 @@ public class Customer extends HttpServlet implements IOperation
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		// TODO Auto-generated method stub
+		int requiredOperation = Parser.parserOperation(request);
+		PrintWriter out = response.getWriter();
+
+	    switch(requiredOperation)
+	    {
+	        case CUSTOMER_OPERATION_ADD_NEW_CUSTOMER:
+	        	
+	        	CustomerEntity customer = Parser.getCustomer(request);
+	        	boolean ok = DataManager.instance.getCustomerManager().addCustomer(customer);
+	        	if( ok )
+	        	{
+	        		response.setStatus(HttpServletResponse.SC_OK);
+	        	}
+	        	else
+	        	{
+	        		response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
+	        	}
+	            break;
+	    }
+	    
+	    out.flush();
 	}
 
 }

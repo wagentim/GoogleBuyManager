@@ -25,7 +25,7 @@ public final class CustomerEntity implements Serializable, IEntityStatus {
 	private String telefon;
 	private String address;
 	private String other;
-	private String contury;
+	private String country;
 	private String province;
 	private String city;
 	private String zipcode;
@@ -51,6 +51,11 @@ public final class CustomerEntity implements Serializable, IEntityStatus {
     public Long getId()
     {
         return id;
+    }
+    
+    public void setId(Long id)
+    {
+    	this.id = id;
     }
 
     public String getFirstName()
@@ -95,11 +100,11 @@ public final class CustomerEntity implements Serializable, IEntityStatus {
     }
     public String getContury()
     {
-        return contury;
+        return country;
     }
-    public void setContury(String contury)
+    public void setCountry(String contury)
     {
-        this.contury = contury;
+        this.country = contury;
     }
     public String getProvince()
     {
@@ -190,33 +195,38 @@ public final class CustomerEntity implements Serializable, IEntityStatus {
         this.status = status;
     }
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ( ( alias == null ) ? 0 : alias.hashCode() );
-        return result;
-    }
-    @Override
-    public boolean equals(Object obj)
-    {
-        if ( this == obj ) return true;
-        if ( obj == null ) return false;
-        if ( getClass() != obj.getClass() ) return false;
-        CustomerEntity other = (CustomerEntity)obj;
-        if ( alias == null )
-        {
-            if ( other.alias != null ) return false;
-        }
-        else if ( !alias.equals(other.alias) ) return false;
-        return true;
-    }
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
 
     @Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CustomerEntity other = (CustomerEntity) obj;
+		if (id == null)
+		{
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	@Override
     public String toString()
     {
         return "CustomerEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", telefon=" + telefon + ", address=" + address + ", other=" + other
-                + ", contury=" + contury + ", province=" + province + ", city=" + city + ", zipcode=" + zipcode + ", securityQues=" + securityQues + ", securityAnsw="
+                + ", contury=" + country + ", province=" + province + ", city=" + city + ", zipcode=" + zipcode + ", securityQues=" + securityQues + ", securityAnsw="
                 + securityAnsw + ", email=" + email + ", pwd=" + pwd + ", alias=" + alias + ", md5=" + md5 + ", validationStart=" + validationStart + ", status="
                 + status + "]";
     }
