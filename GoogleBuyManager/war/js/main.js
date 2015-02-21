@@ -57,94 +57,10 @@ $(document).ready(
         
         $("button#modify_customer").click(function()
         {
-        	removeAllCustomer();
-            removeAllDetail();
-            createLeftComponent();
-            createRightComponent();
-
+        	window.location="edituser.html";
         });
     }
 );
-
-function removeAllCustomer()
-{
-       $( ".list").empty();
-}
-
-function removeAllDetail()
-{
-       $( ".detail").empty();
-}
-
-function createLeftComponent()
-{
-    addItems();
-    addItems();
-    addItems();
-    addItems();
-    addItems();
-    addItems();
-    addItems();
-    addItems();
-    addItems();
-    addItems();
-    addItems();
-    addItems();
-    addItems();
-    addItems();
-    addItems();
-    addItems();
-
-}
-
-function createRightComponent()
-{
-        var result = "" ;
-
-        // name
-       result += "<div class='form-group'><label for='name' class='col-sm-2 control-label'>User Name:</label><div class='col-sm-7'><input type='text' class='form-control' id='name' name='name'></div></div>";
-        // alias
-       result += "<div class='form-group'><label for='alias' class='col-sm-2 control-label'>Alias Name:</label><div class='col-sm-7'><input type='text' class='form-control' id='alias' name='alias'></div></div>";
-        // telefon
-       result += "<div class='form-group'><label for='telefon' class='col-sm-2 control-label'>Telefon:</label><div class='col-sm-7'><input type='text' class='form-control' id='telefon' name='telefon'></div></div>";
-        // email
-       result += "<div class='form-group'><label for='email' class='col-sm-2 control-label'>Email:</label><div class='col-sm-7'><input type='email' class='form-control' id='email' name='email'></div></div>";
-
-        // country province
-       result += "<div class='form-group'>" ;
-       result += "<label for='country' class='col-sm-2 control-label'>Country:</label><div class='col-sm-2'><input type='text' class='form-control' id='country' name='country'></div>";
-       result += "<label for='province' class='col-sm-2 control-label'>Province:</label><div class='col-sm-3'><input type='text' class='form-control' id='province' name='province'></div>";
-       result += "</div>";
-
-        // city zipcode
-       result += "<div class='form-group'>" ;
-       result += "<label for='city' class='col-sm-2 control-label'>City:</label><div class='col-sm-2'><input type='text' class='form-control' id='city' name='city'></div>";
-       result += "<label for='zipcode' class='col-sm-2 control-label'>Zipcode:</label><div class='col-sm-3'><input type='text' class='form-control' id='zipcode' name='zipcode'></div>";
-       result += "</div>";
-
-        // address detail
-       result += "<div class='form-group'><label for='address' class='col-sm-2 control-label'>Address:</label><div class='col-sm-7'><input type='email' class='form-control' id='address' name='address'></div></div>";
-       $( ".detail").append(result);
-}
-
-function addItems()
-{
-    var result = "<a href='#' class='list-group-item'>Huang Bin</a>" ;
-
-    $(".list").append(result);
-}
-
-
-function showEditCustomerModal()
-{
-	$(".modal-title").html("编辑客户");
-	createPanel();
-}
-
-function getAuth()
-{
-	
-}
 
 function showAlert(message)
 {
