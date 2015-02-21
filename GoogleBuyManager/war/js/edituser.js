@@ -4,8 +4,7 @@ $(document).ready(
 		
 		function()
 		{
-			loadCustomers();
-			addCustomers();
+			refreshCustomersList();
 			
 			$(".back").click(
 				function()
@@ -36,7 +35,7 @@ $(document).ready(
 			        data : postData,
 			        success:function(data, textStatus, jqXHR) 
 			        {
-			            alert("ok");
+			        	refreshCustomersList();
 			        },
 			        error: function(jqXHR, textStatus, errorThrown) 
 			        {
@@ -52,6 +51,18 @@ $(document).ready(
 			});
 		}
 );
+
+function refreshCustomersList()
+{
+	removeCustomers();
+	loadCustomers();
+	addCustomers();
+}
+
+function removeCustomers()
+{
+	$(".list-group").empty();
+}
 
 function loadCustomers()
 {
@@ -81,7 +92,7 @@ function reset_form()
 
 function addCustomers()
 {
-	var result = "";
+	var result = "<a href='#' class='list-group-item active new' style='text-align: center'>+ 新建客户</a>";
 	var length = customers.length;
 	for(var i = 0; i < length; i++)
 	{

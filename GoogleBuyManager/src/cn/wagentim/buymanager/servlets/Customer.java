@@ -40,7 +40,7 @@ public class Customer extends HttpServlet implements IOperation
 		            break;
 		        case CUSTOMER_OPERATION_ADD_NEW_CUSTOMER:
 		        	CustomerEntity customer = Parser.getCustomer(request);
-		        	boolean ok = DataManager.instance.getCustomerManager().addCustomer(customer);
+		        	boolean ok = DataManager.instance.getCustomerManager().postCustomer(customer);
 		        	if( ok )
 		        	{
 		        		response.setStatus(HttpServletResponse.SC_OK);
@@ -68,7 +68,7 @@ public class Customer extends HttpServlet implements IOperation
 	        case CUSTOMER_OPERATION_ADD_NEW_CUSTOMER:
 	        	
 	        	CustomerEntity customer = Parser.getCustomer(request);
-	        	boolean ok = DataManager.instance.getCustomerManager().addCustomer(customer);
+	        	boolean ok = DataManager.instance.getCustomerManager().postCustomer(customer);
 	        	if( ok )
 	        	{
 	        		response.setStatus(HttpServletResponse.SC_OK);
