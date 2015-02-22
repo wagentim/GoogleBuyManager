@@ -1,4 +1,5 @@
 var customers;
+var selID = 0;
 
 $(document).ready(
 		
@@ -6,23 +7,17 @@ $(document).ready(
 		{
 			refreshCustomersList();
 			
-			$(".back").click(
-				function()
-				{
-					window.history.back();
-				}
-			);
-			
-			$("a.new").click(
+			$(".list-group").on("click", "a.new",
 				function()
 				{
 					reset_form();
+					selID = 0;
 				}
 			);
 			
 			$(".list-group").on("click", ".item", function(){
-				var id = $(this).attr("uid");
-				assignValues(id);
+				selID = $(this).attr("uid");
+				assignValues();
 			});
 			
 			$(".myform").submit(function(e){
@@ -49,8 +44,20 @@ $(document).ready(
 			$(".save").click(function(){
 				$(".myform").submit();
 			});
+			
+			$(".delete").click(function(){
+				deleteCustomer();
+			});
 		}
 );
+
+function deleteCustomer()
+{
+	if( 0 == selID )
+	{
+		reset_form();
+	}
+}
 
 function refreshCustomersList()
 {
@@ -102,13 +109,13 @@ function addCustomers()
 	$(".list-group").append(result);
 }
 
-function assignValues(id)
+function assignValues()
 {
 	var customer;
 	for(var i = 0; i < customers.length; i++)
 	{
 		var tmp = JSON.stringify(customers[i].id);
-		if( id == tmp )
+		if( selID == tmp )
 		{
 			customer = customers[i];
 			break;

@@ -32,7 +32,7 @@ public class CustomerManager implements ICustomerStatement
     	}
     }
 
-    public boolean postCustomer(CustomerEntity customer)
+    public synchronized boolean postCustomer(CustomerEntity customer)
     {
     	if( null == customer )
     	{
@@ -47,6 +47,7 @@ public class CustomerManager implements ICustomerStatement
     	{
     		addNewCustomerToDB(customer);
     	}
+    	
     	refreshList();
     	return true;
     }
