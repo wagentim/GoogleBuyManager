@@ -55,12 +55,17 @@ public class Parser implements IOperation
         return new String[]{parameters.get(USER_NAME)[0], parameters.get(PASSWORD)[0]};
     }
     
-    public static final CustomerEntity getCustomer(final HttpServletRequest request)
+    public static final CustomerEntity getCustomer(final HttpServletRequest request, final boolean isNewEntity)
     {
     	Map<String, String[]> parameters = request.getParameterMap();
     	
     	CustomerEntity customer = new CustomerEntity();
-    	customer.setId(Long.valueOf(parameters.get(Constants.CUSTOMER_UID)[0]));
+    	
+    	if( !isNewEntity )
+    	{
+    		customer.setId(Long.valueOf(parameters.get(Constants.CUSTOMER_UID)[0]));
+    	}
+    	
     	customer.setAlias(parameters.get(Constants.CUSTOMER_ALISA)[0]);
     	customer.setFirstName(parameters.get(Constants.CUSTOMER_FIRST_NAME)[0]);
     	customer.setLastName(parameters.get(Constants.CUSTOMER_LAST_NAME)[0]);
@@ -74,4 +79,11 @@ public class Parser implements IOperation
     	
     	return customer;
     }
+
+	public static Long getUID(HttpServletRequest request)
+	{
+		String[] values = (String[]) request.getParameterMap().get(Constants.CUSTOMER_UID);
+		
+		return Long.valueOf(values[0]);
+	}
 }

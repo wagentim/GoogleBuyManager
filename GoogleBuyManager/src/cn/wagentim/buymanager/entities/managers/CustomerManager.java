@@ -1,143 +1,152 @@
 package cn.wagentim.buymanager.entities.managers;
 
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
 import cn.wagentim.buymanager.entities.CustomerEntity;
+import cn.wagentim.buymanager.utils.Constants;
 import cn.wagentim.buymanager.utils.Utils;
+
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 public class CustomerManager implements ICustomerStatement
 {
-	private final String PERSISTENCE_UNIT_NAME = "transactions-optional";
-	private List<CustomerEntity> customers;
-
+	private Map<Long, CustomerEntity> customers = null;
+	private static final EntityManager em = Persistence.createEntityManagerFactory(Constants.PERSISTENCE_UNIT_NAME).createEntityManager();
+	
     public CustomerManager()
     {
-    	refreshList();
+    	customers = new ConcurrentHashMap<Long, CustomerEntity>();
+    	loadCustomersFromDB();
     }
     
-    private void refreshList()
-    {
-    	if( null == customers )
-    	{
-    		customers = new CopyOnWriteArrayList<>(getAllCustomersFromDB());
-    	}
-    	else
-    	{
-    		customers.clear();
-    		customers.addAll(getAllCustomersFromDB());
-    	}
-    }
-
-    public synchronized boolean postCustomer(CustomerEntity customer)
+    public synchronized boolean postCustomer(CustomerEntity customer, boolean isNewEntity)
     {
     	if( null == customer )
     	{
     		return false;
     	}
     	
-    	if( customers.contains(customer) )
-    	{
-    		updateCustomer(customer);
-    	}
-    	else
+    	if( isNewEntity )
     	{
     		addNewCustomerToDB(customer);
     	}
+    	else
+    	{
+    		updateCustomer(customer);
+    	}
     	
-    	refreshList();
+    	loadCustomersFromDB();
     	return true;
     }
 
     private void updateCustomer(CustomerEntity customer)
 	{
     	Long id = customer.getId();
-    	
-    	for( int i = 0; i < customers.size(); i++ )
+    	Set<Long> keys = customers.keySet();
+    	if( keys.contains(id) )
     	{
-    		if(id.equals(customers.get(i).getId()))
-    		{
-    			customers.remove(i);
-    		}
+    		customers.put(id, customer);
+    		mergeCustomer(customer);
     	}
-    	
-    	customers.add(customer);
-    	
-    	mergeCustomer(customer);
-
 	}
     
     private void mergeCustomer(final CustomerEntity customer)
     {
-    	EntityManager em = getEntitiyManager();
-    	try
-    	{
-    		em.getTransaction().begin();
-    		em.merge(customer);
-    		em.getTransaction().commit();
-    	}
-    	finally
-    	{
-    		em.close();
-    		em = null;
-    	}
+    	em.getTransaction().begin();
+    	em.merge(customer);
+    	em.getTransaction().commit();
     }
     
-    
-	private EntityManager getEntitiyManager()
+	private void addNewCustomerToDB(CustomerEntity customer)
     {
-        return Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME).createEntityManager();
+		em.getTransaction().begin();
+		em.persist(customer);
+		em.getTransaction().commit();
     }
 
-	private synchronized void addNewCustomerToDB(CustomerEntity customer)
+    private void loadCustomersFromDB()
     {
-		EntityManager em = getEntitiyManager();
-		try
-		{
-			em.getTransaction().begin();
-			em.persist(customer);
-			em.getTransaction().commit();
-		}
-		finally
-		{
-			em.close();
-			em = null;
-		}
-    }
-
-	public CustomerEntity getCustomerWithUserName(final String userName)
-	{
-	    if( null != customers && customers.size() > 0 )
-	    {
-	        for( int i = 0; i < customers.size(); i++ )
-	        {
-	            CustomerEntity ce;
-
-	            if( userName.equals( ( ce = customers.get(i)).getAlias()) )
-	            {
-	                return ce;
-	            }
-	        }
-	    }
-
-	    return null;
-	}
-
-    @SuppressWarnings("unchecked")
-    private List<CustomerEntity> getAllCustomersFromDB()
-    {
-        List<CustomerEntity> result = null;
-        EntityManager em = getEntitiyManager();
-        result = em.createQuery(GET_ALL_CUSTOMERS).getResultList();
-
-        return result;
+        @SuppressWarnings("unchecked")
+		List<CustomerEntity> result = em.createQuery(GET_ALL_CUSTOMERS).getResultList();
+        
+        if( null != result && !result.isEmpty() )
+        {
+        	customers.clear();
+        	
+        	for(CustomerEntity c : result)
+        	{
+        		customers.put(c.getId(), c);
+        	}
+        }
     }
 
     public String getCustomersAsString()
     {
-        return Utils.toJson(customers);
+    	if( null == customers || customers.isEmpty() )
+        {
+    		return Utils.toJson(new JSONObject());
+        }
+    	else
+    	{
+    		return Utils.toJson(customers.values());
+    	}
     }
+
+	public synchronized boolean deleteCustomer(Long uid)
+	{
+		CustomerEntity c = em.find(CustomerEntity.class, uid);
+		
+		if( null == c )
+		{
+			return false;
+		}
+		em.getTransaction().begin();
+		em.remove(c);
+		em.getTransaction().commit();
+		
+		loadCustomersFromDB();
+		
+		return true;
+	}
+
+	public CustomerEntity getCustomerWithID(Long uid)
+	{
+		if( null == customers || customers.isEmpty() )
+		{
+			return null;
+		}
+		
+		Set<Long> keys = customers.keySet();
+		
+		for(Long id : keys)
+		{
+			if(id.equals(uid))
+			{
+				return customers.get(id);
+			}
+		}
+		
+		return null;
+	}
+	
+	public synchronized void deleteAllCustomers()
+	{
+		if( null == customers || customers.isEmpty() )
+		{
+			return;
+		}
+		Set<Long> keys = customers.keySet();
+		for(Long key : keys)
+		{
+			deleteCustomer(key);
+		}
+		
+		loadCustomersFromDB();
+	}
 }

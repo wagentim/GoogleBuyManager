@@ -24,42 +24,42 @@ public class Login extends HttpServlet
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-    	// parser the user name and password from request
-        String[] loginInfo = Parser.getUserLoginInfo(request);
-        
-        // check if empty
-        if( Validator.isNullOrEmpty(loginInfo) )
-        {
-            response.getWriter().write("User Name or Password Error!");
-            return;
-        }
-
-        final String userName = loginInfo[0];
-        final String pwd = loginInfo[1];
-
-        // check user name
-        CustomerEntity customer = DataManager.instance.getCustomerManager().getCustomerWithUserName(userName);
-
-        if( null == customer )
-        {
-        	// TODO redirect to the error page with error message
-            response.getWriter().write("The user is not registered!");
-            return;
-        }
-
-        // check password
-        if( !pwd.equals(customer.getPwd()) )
-        {
-        	// TODO redirect to the error page with error message
-            response.getWriter().write("The password is wrong!");
-            return;
-        }
-
-        // update Auth String
-        updateAuth(customer);
-
-        Utils.setAuthCookie(response, customer.getMd5());
-        response.sendRedirect("order.html");
+//    	// parser the user name and password from request
+//        String[] loginInfo = Parser.getUserLoginInfo(request);
+//        
+//        // check if empty
+//        if( Validator.isNullOrEmpty(loginInfo) )
+//        {
+//            response.getWriter().write("User Name or Password Error!");
+//            return;
+//        }
+//
+//        final String userName = loginInfo[0];
+//        final String pwd = loginInfo[1];
+//
+//        // check user name
+//        CustomerEntity customer = DataManager.instance.getCustomerManager().getCustomerWithUserName(userName);
+//
+//        if( null == customer )
+//        {
+//        	// TODO redirect to the error page with error message
+//            response.getWriter().write("The user is not registered!");
+//            return;
+//        }
+//
+//        // check password
+//        if( !pwd.equals(customer.getPwd()) )
+//        {
+//        	// TODO redirect to the error page with error message
+//            response.getWriter().write("The password is wrong!");
+//            return;
+//        }
+//
+//        // update Auth String
+//        updateAuth(customer);
+//
+//        Utils.setAuthCookie(response, customer.getMd5());
+//        response.sendRedirect("order.html");
 
     }
 

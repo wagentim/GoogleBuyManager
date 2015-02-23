@@ -27,6 +27,8 @@ $(document).ready(
 			    {
 			        url : formURL,
 			        type: "POST",
+			        encoding: "utf-8",
+			        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			        data : postData,
 			        success:function(data, textStatus, jqXHR) 
 			        {
@@ -34,7 +36,7 @@ $(document).ready(
 			        },
 			        error: function(jqXHR, textStatus, errorThrown) 
 			        {
-			            alert("error");    
+			            alert(textStatus);    
 			        }
 			    });
 			    e.preventDefault();
@@ -57,6 +59,29 @@ function deleteCustomer()
 	{
 		reset_form();
 	}
+	else
+	{
+		deleteCustomerFromDB();
+	}
+}
+
+function deleteCustomerFromDB()
+{
+    $.ajax(
+    {
+        url : "/customer?opt=2",
+        type: "POST",
+        data : {uid: selID},
+        success:function(data, textStatus, jqXHR) 
+        {
+        	refreshCustomersList();
+        	reset_form();
+        },
+        error: function(jqXHR, textStatus, errorThrown) 
+        {
+            alert(textStatus);    
+        }
+    });
 }
 
 function refreshCustomersList()

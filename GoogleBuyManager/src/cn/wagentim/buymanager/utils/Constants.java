@@ -36,7 +36,9 @@ public interface Constants
     public static final String CUSTOMER_CITY = "city";
     public static final String CUSTOMER_ZIPCODE = "zipcode";
     public static final String CUSTOMER_ADDRESS = "address";
-	public static final Object CUSTOMER_UID = "uid";
+	public static final String CUSTOMER_UID = "uid";
     
-    
+	// 	--------------- Entity Constants ---------------
+	public static final String PERSISTENCE_UNIT_NAME = "transactions-optional";
+
 }
