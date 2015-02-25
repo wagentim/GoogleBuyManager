@@ -1,15 +1,11 @@
 package cn.wagentim.buymanager.utils;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-
-import cn.wagentim.buymanager.helper.contents.IContentHandler;
-import cn.wagentim.buymanager.helper.contents.TemplateLineHandler;
 
 import com.google.gson.Gson;
 
@@ -61,14 +57,5 @@ public final class Utils
         }
 
 	    return StringConstants.EMPTY_STRING;
-	}
-	
-	public static void setAuthCookie(final HttpServletResponse response, final String authID)
-	{
-		if( null != response && null != authID && authID.length() > 0 )
-		{
-			Cookie cookie = new Cookie(Parser.AUTH, authID);
-			response.addCookie(cookie);
-		}
 	}
 }

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.wagentim.buymanager.entities.CustomerEntity;
 import cn.wagentim.buymanager.entities.managers.DataManager;
-import cn.wagentim.buymanager.utils.Parser;
+import cn.wagentim.buymanager.utils.HttpHelper;
 
 public class Customer extends HttpServlet implements IOperation
 {
@@ -21,7 +21,7 @@ public class Customer extends HttpServlet implements IOperation
 	{
 		PrintWriter out = response.getWriter();
 
-		int requiredOperation = Parser.parserOperation(request);
+		int requiredOperation = HttpHelper.parserOperation(request);
 
 		switch (requiredOperation)
 		{
@@ -46,17 +46,17 @@ public class Customer extends HttpServlet implements IOperation
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		int requiredOperation = Parser.parserOperation(request);
+		int requiredOperation = HttpHelper.parserOperation(request);
 		PrintWriter out = response.getWriter();
 		boolean ok = false;
-		Long uid = Parser.getUID(request);
+		Long uid = HttpHelper.getUID(request);
 
 	    switch(requiredOperation)
 	    {
 	        case CUSTOMER_OPERATION_POST_CUSTOMER:
 	        	CustomerEntity customer = DataManager.instance.getCustomerManager().getCustomerWithID(uid);
 	        	boolean isNewEntity = (null == customer ? true : false);
-	        	customer = Parser.getCustomer(request, isNewEntity);
+	        	customer = HttpHelper.getCustomer(request, isNewEntity);
 	        	ok = DataManager.instance.getCustomerManager().postCustomer(customer, isNewEntity);
 	            break;
 	        case CUSTOMER_OPERATION_DELETE_CUSTOMERS:

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import cn.wagentim.buymanager.entities.CustomerEntity;
 import cn.wagentim.buymanager.entities.IEntityStatus;
 import cn.wagentim.buymanager.entities.managers.DataManager;
-import cn.wagentim.buymanager.utils.Parser;
+import cn.wagentim.buymanager.utils.HttpHelper;
 import cn.wagentim.buymanager.utils.Utils;
 import cn.wagentim.buymanager.utils.Validator;
 
